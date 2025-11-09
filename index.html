@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Group Portfolio & Data Structures</title>
+    <style>
+        body { font-family: subscript; padding: 40px; }
+        .nav-link { display: inline-block; padding: 10px 20px; background-color: #3498db; color: white; text-decoration: none; border-radius: 5px; margin-right: 15px; margin-bottom: 15px; }
+        .nav-link:hover { background-color: #2980b9; }
+    </style>
+</head>
+<body>
+    <h1>Group Laboratory Exercise 6: Portfolio</h1>
+    <p>Welcome to our Web Flask portfolio page, demonstrating our implementation of fundamental data structures using Linked Lists.</p>
+
+    <h2>Navigation Tabs</h2>
+    <a href="{{ url_for('profiles_page') }}" class="nav-link">👥 Group Profiles</a>
+    <a href="{{ url_for('queue_page') }}" class="nav-link">🔗 Linked List Queue (FIFO)</a>
+    <a href="{{ url_for('deque_page') }}" class="nav-link">🔗 Doubly Linked List Deque</a>
+
+    <hr>
+    <h2>Project Summary</h2>
+    <p>This section is reserved for your team's projects and high-level descriptions.</p>
+</body>
+</html>

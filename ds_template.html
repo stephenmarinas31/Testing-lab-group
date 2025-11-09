@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ ds_name }} Demonstration</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        .ds-display {
+            border: 2px solid #2c3e50;
+            padding: 20px;
+            min-height: 50px;
+            margin-bottom: 30px;
+            background-color: #ecf0f1;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .element {
+            background: #f39c12;
+            color: white;
+            border: 1px solid #e67e22;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .front { border-left: 5px solid #27ae60; background-color: #2ecc71; } /* Green for Front */
+        .rear { border-right: 5px solid #3498db; background-color: #3498db; }  /* Blue for Rear */
+        .message { padding: 10px; background-color: #d1e7dd; color: #0f5132; border: 1px solid #badbcc; border-radius: 5px; margin-bottom: 15px;}
+        .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .control-block { border: 1px solid #ccc; padding: 15px; border-radius: 5px; background-color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ ds_name }}</h1>
+        <p><strong>Implementation:</strong> **{{ "Doubly" if ds_name.startswith("Deque") else "Singly" }} Linked List**</p>
+        <p><em>{{ display_info }}</em></p>
+
+        {% if message %}
+            <p class="message">{{ message | safe }}</p>
+        {% endif %}
+
+        <h2>Current Elements (Front &rarr; Rear)</h2>
+        <div class="ds-display">
+            {% if ds_elements %}
+                {% for item in ds_elements %}
+                    <span class="element {% if loop.first %}front{% endif %} {% if loop.last %}rear{% endif %}">
+                        {{ item }}
+                    </span>
+                {% endfor %}
+            {% else %}
+                <p>The {{ ds_name }} is currently empty.</p>
+            {% endif %}
+        </div>
+
+        <a href="{{ url_for('index') }}">&larr; Back to Portfolio Index</a>
+        <hr>
+
+        <h2>Operations</h2>
+        <form method="POST" action="">
+            <div class="controls">
+
+                {# Handle INSERT/ADD operations #}
+                {% for key, op in operations.items() %}
+                    {% if 'add' in key or 'enqueue' in key %}
+                        <div class="control-block">
+                            <h4>{{ op.name }}</h4>
+                            <input type="text" name="item" placeholder="{{ op.placeholder }}" required style="padding: 8px; width: 100%; margin-bottom: 10px;">
+                            <input type="hidden" name="action" value="{{ op.action }}">
+                            <button type="submit" style="padding: 10px 15px; width: 100%; background-color: #27ae60; color: white; border: none; border-radius: 5px;">{{ op.name }}</button>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                {# Handle DELETE/REMOVE operations #}
+                {% for key, op in operations.items() %}
+                    {% if 'remove' in key or 'dequeue' in key %}
+                        <div class="control-block">
+                            <h4>{{ op.name }}</h4>
+                            <input type="hidden" name="action" value="{{ op.action }}">
+                            <button type="submit" style="padding: 10px 15px; width: 100%; background-color: #c0392b; color: white; border: none; border-radius: 5px;">{{ op.name }}</button>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+        </form>
+    </div>
+</body>
+</html>
